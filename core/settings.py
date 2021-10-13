@@ -7,6 +7,8 @@ import os
 from decouple import config
 from unipath import Path
 
+import django_heroku
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = Path(__file__).parent
 CORE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -127,3 +129,6 @@ STATICFILES_DIRS = (
 # google reCaptcha
 RECAPTCHA_PUBLIC_KEY = config('RECAPTCHA_PUBLIC_KEY')
 RECAPTCHA_PRIVATE_KEY = config('RECAPTCHA_PRIVATE_KEY')
+
+# Configure Django App for Heroku.
+django_heroku.settings(locals())
