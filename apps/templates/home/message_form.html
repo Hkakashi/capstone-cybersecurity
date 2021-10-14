@@ -1,0 +1,162 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Send Message {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<!-- Header -->
+<div class="header bg-primary pb-6">
+	<div class="container-fluid">
+		<div class="header-body">
+			<div class="row align-items-center py-4">
+				<div class="col-lg-6 col-7">
+					<h6 class="h2 text-white d-inline-block mb-0">Default</h6>
+					<nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+						<ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+							<li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+							<li class="breadcrumb-item"><a href="#">Dashboards</a></li>
+							<li class="breadcrumb-item active" aria-current="page">Default</li>
+						</ol>
+					</nav>
+				</div>
+				<div class="col-lg-6 col-5 text-right">
+					<a href="#" class="btn btn-sm btn-neutral">New</a>
+					<a href="#" class="btn btn-sm btn-neutral">Filters</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Page content -->
+<div class="container-fluid mt--6">
+	<div class="row">
+		<div class="col-xl-4 order-xl-2">
+			<div class="card card-profile">
+				<img src="/static/assets/img/theme/img-1-1000x600.jpg" alt="Image placeholder" class="card-img-top">
+				<div class="row justify-content-center">
+					<div class="col-lg-3 order-lg-2">
+						<div class="card-profile-image">
+							<a href="#">
+								<img src="/static/assets/img/theme/team-4.jpg" class="rounded-circle">
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+					<div class="d-flex justify-content-between">
+						<a href="#" class="btn btn-sm btn-info  mr-4 ">Connect</a>
+						<a href="#" class="btn btn-sm btn-default float-right">Message</a>
+					</div>
+				</div>
+				<div class="card-body pt-0">
+					<div class="row">
+						<div class="col">
+							<div class="card-profile-stats d-flex justify-content-center">
+								<div>
+									<span class="heading">22</span>
+									<span class="description">Friends</span>
+								</div>
+								<div>
+									<span class="heading">10</span>
+									<span class="description">Photos</span>
+								</div>
+								<div>
+									<span class="heading">89</span>
+									<span class="description">Comments</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="text-center">
+						<h5 class="h3">
+							{{ request.user.username }}
+						</h5>
+						<div class="h5 font-weight-300">
+							{{ request.user.email }}
+						</div>
+						<div class="h5 mt-4">
+							<i class="ni business_briefcase-24 mr-2"></i>Solution Manager - Creative Tim Officer
+						</div>
+						<div>
+							<i class="ni education_hat mr-2"></i>University of Computer Science
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xl-8 order-xl-1">
+			<div class="card">
+				<form method="post" action="{% url 'message' %}">{% csrf_token %}
+				<div class="card-header">
+					<div class="row align-items-center">
+						<div class="col-8">
+							<h3 class="mb-0">Edit Message</h3>
+						</div>
+						<div class="col-4 text-right">
+							<a class="btn btn-sm btn-primary">
+								<input type="submit" value="Send">
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="card-body">
+					<!-- Receiver -->
+					<h6 class="heading-small text-muted mb-4">User information</h6>
+					<div class="form-group pl-lg-4">
+						<label for="{{ form.receiver.id_for_label }}">Send to:</label>
+						{{ form.receiver.errors }}
+						<select class="form-control" name="receiver" required id="{{ form.receiver.id_for_label }}">
+						{% for receiver in form.receiver %}
+							{{ receiver }}
+						{% endfor %}
+						</select>
+					</div>
+					<!-- Message body -->
+					<h6 class="heading-small text-muted mb-4">Message</h6>
+					<div class="pl-lg-4">
+						<div class="form-group">
+							<div class="form-group">
+								<div class="input-group has-validation">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1">Subject:</span>
+									</div>
+									<input type="text" class="form-control {% if form.subject.errors %}is-invalid{% endif %}" required name="subject" for="{{ form.subject.id_for_label }}" placeholder="Top Secret..." aria-label="Subject" aria-describedby="basic-addon1">
+									{% if form.subject.errors %}
+									{% for error in form.subject.errors %}
+									<div class="invalid-feedback">
+										{{ error|escape }}
+									</div>
+									{% endfor %}
+									{% endif %}
+								</div>
+							</div>
+							<label class="form-control-label" for="{{ form.content.id_for_label }}">Message:</label>
+							{{ form.content.errors }}
+							<textarea rows="4" name="content" required class="form-control" id="{{ form.content.id_for_label }}"
+								placeholder="The message will be encrypted in storage..."></textarea>
+						</div>
+					</div>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	{% include "includes/footer.html" %}
+
+</div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+
+<script src="/static/assets/vendor/chart.js/dist/Chart.min.js"></script>
+<script src="/static/assets/vendor/chart.js/dist/Chart.extension.js"></script>
+
+{% endblock javascripts %}
