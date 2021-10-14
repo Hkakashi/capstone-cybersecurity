@@ -70,10 +70,14 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
+DATABASES = {        
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db.sqlite3',
+        'ENGINE': 'djongo',
+        'NAME': 'capstone',
+        'ENFORCE_SCHEMA': False,
+        'CLIENT': {
+            'host': config('DB_HOST')
+        }
     }
 }
 
